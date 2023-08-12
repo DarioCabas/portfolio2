@@ -1,22 +1,16 @@
-import { useState, useEffect } from 'react';
-
-type ScrollDirection = 'up' | 'down';
+import { useState, useEffect, FC } from 'react';
 
 interface UseScrollDirectionHookOptions {
-  initialDirection?: ScrollDirection;
+  initialDirection?: 'up' | 'down';
   thresholdPixels?: number;
   off?: boolean;
 }
 
-interface UseScrollDirectionHook {
-  (options?: UseScrollDirectionHookOptions): ScrollDirection;
-}
+const SCROLL_DOWN = 'down';
+const SCROLL_UP = 'up';
 
-const SCROLL_UP: ScrollDirection = 'up';
-const SCROLL_DOWN: ScrollDirection = 'down';
-
-const useScrollDirection: UseScrollDirectionHook = ({ initialDirection, thresholdPixels, off } = {}) => {
-  const [scrollDir, setScrollDir] = useState<ScrollDirection>(initialDirection ?? 'up');
+const useScrollDirection = ({ initialDirection, thresholdPixels, off }: UseScrollDirectionHookOptions = {}) => {
+  const [scrollDir, setScrollDir] = useState(initialDirection);
 
   useEffect(() => {
     const threshold = thresholdPixels || 0;
@@ -27,6 +21,7 @@ const useScrollDirection: UseScrollDirectionHook = ({ initialDirection, threshol
       const scrollY = window.scrollY;
 
       if (Math.abs(scrollY - lastScrollY) < threshold) {
+        // We haven't exceeded the threshold
         ticking = false;
         return;
       }
@@ -43,10 +38,14 @@ const useScrollDirection: UseScrollDirectionHook = ({ initialDirection, threshol
       }
     };
 
+    /**
+     * Bind the scroll handler if `off` is set to false.
+     * If `off` is set to true reset the scroll direction.
+     */
     if (!off) {
       window.addEventListener('scroll', onScroll);
     } else {
-      setScrollDir(initialDirection ?? 'up');
+      setScrollDir(initialDirection);
     }
 
     return () => window.removeEventListener('scroll', onScroll);

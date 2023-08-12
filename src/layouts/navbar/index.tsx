@@ -1,22 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { navLinks } from '@config';
-import { LOADER_DELAY } from '@lib/constants';
-import { useScrollDirection } from '@hooks';
-import { Menu } from '@components';
-import { IconLogo } from '@components/Icons';
+import config from '@/config';
+import { LOADER_DELAY } from '@/lib/constants';
+import { useScrollDirection } from '@/hooks';
+import { IconLogo } from '@/components/icons';
 // import * as gtag from '@lib/gtag';
 import { StyledHeader, StyledNav, StyledLinks } from './styles';
+import Menu from '@/components/menu';
 
-const Nav = ({ isHome }) => {
+interface NavProps {
+  isHome: boolean;
+}
+const Nav: FC<NavProps> = ({ isHome }) => {
+  const { navLinks } = config
   const [isMounted, setIsMounted] = useState(!isHome);
-  const scrollDirection = useScrollDirection('down');
+  const scrollDirection = useScrollDirection({
+    initialDirection: 'down', // or 'up'
+  });
   const [scrolledToTop, setScrolledToTop] = useState(true);
 
   const handleScroll = () => {
-    setScrolledToTop(window.pageYOffset < 50);
+    setScrolledToTop(window.scrollY < 50);
   };
 
   useEffect(() => {
@@ -53,10 +59,10 @@ const Nav = ({ isHome }) => {
         <TransitionGroup component={null}>
           {isMounted && (
             <CSSTransition classNames={fadeClass} timeout={timeout}>
-              <div className="logo" tabIndex="-1">
+              <div className="logo" tabIndex={-1}>
                 {isHome ? (
                   <a href="/" aria-label="home">
-                    <IconLogo width={36.581} height={50.186} />
+                    <IconLogo  />
                   </a>
                 ) : (
                   <Link href="/" aria-label="home">
@@ -110,8 +116,5 @@ const Nav = ({ isHome }) => {
   );
 };
 
-Nav.propTypes = {
-  isHome: PropTypes.bool,
-};
 
 export default Nav;
