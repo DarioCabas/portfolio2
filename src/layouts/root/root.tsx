@@ -6,7 +6,7 @@ import Router from 'next/router';
 import DefaultLayout from '@/layouts/default';
 import theme from '@/themes/dark';
 import { NextComponentType, NextPageContext } from 'next';
-import GlobalStyles from '@/styles/global';
+import GlobalStyles from '@/styles/globals';
 
 
 interface LayoutProps {
