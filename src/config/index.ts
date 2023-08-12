@@ -28,26 +28,26 @@ interface Config {
 }
 
 const config: Config = {
-  email: 'jrgarciadev@gmail.com',
+  email: 'hz-hertzio@hotmail.com',
   featuredProjects,
   projects,
-  skills: ['JavaScript', 'TypeScript', 'React Native', 'React', 'Next.js', 'GraphQL'],
+  skills: ['JavaScript', 'TypeScript', 'React Native', 'React', 'Next.js', 'Redux', 'Python'],
   socialMedia: [
     {
       name: 'GitHub',
-      url: 'https://github.com/jrgarciadev',
+      url: 'https://github.com/DarioCabas',
     },
     {
       name: 'Linkedin',
-      url: 'https://www.linkedin.com/in/jrgarciadev/',
+      url: 'https://www.linkedin.com/in/dario-cabascango-9724431a3/',
     },
     {
       name: 'Instagram',
-      url: 'https://www.instagram.com/jrgarciadev',
+      url: '',
     },
     {
       name: 'Twitter',
-      url: 'https://twitter.com/jrgarciadev',
+      url: 'https://twitter.com/dario_cabas93',
     },
   ],
   navLinks: [
@@ -57,7 +57,7 @@ const config: Config = {
     },
     {
       name: 'Blog',
-      url: 'https://blog.jrgarciadev.com',
+      url: '',
     },
     {
       name: 'Work',

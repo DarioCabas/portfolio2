@@ -23,7 +23,7 @@ const About = () => {
       <div className="inner">
         <StyledText>
           <div>
-            <p>Hello! I&apos;m Junior, a Software Developer based in Buenos Aires, Argentina.</p>
+            <p>Hello! I&apos;m a Software Developer based in Quito, Ecuador.</p>
             <p>
               I enjoy creating beautiful and reliable applications for internet and phones.
               <br />
