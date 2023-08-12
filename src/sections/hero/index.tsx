@@ -15,11 +15,11 @@ const Hero = () => {
   }, []);
 
   const one = <h1>Welcome, I&apos;m</h1>;
-  const two = <StyledBigTitle>Junior García.</StyledBigTitle>;
+  const two = <StyledBigTitle>Darío Cabascango.</StyledBigTitle>;
   const three = <StyledBigTitle slate>I build web and mobile apps.</StyledBigTitle>;
   const four = (
     <p>
-      I&apos;m a software developer based in Buenos Aires AR, specializing in building exceptional
+      I&apos;m a software developer based in Ecuador EC, specializing in building exceptional
       websites and mobile applications, and everything in between.
     </p>
   );
