@@ -220,5 +220,6 @@ export const StyledProjectImage = styled.img`
     object-fit: cover;
     width: auto;
     height: 100%;
+    opacity: 0.12;
   }
 `;

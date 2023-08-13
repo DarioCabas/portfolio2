@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import anime from 'animejs';
-
+import { StyleSheetManager } from 'styled-components';
 import { StyledLoader } from './styles';
 import { IconLoader } from '../icons';
 
@@ -33,12 +33,16 @@ const Loader = ({ onFinish }: LoaderProps) => {
     return () => clearTimeout(timeout);
   }, []);
 
+  const shouldForwardProp = (prop: any) => prop !== 'isMounted';
+
   return (
-    <StyledLoader className="loader" isMounted={isMounted}>
-      <div className="logo-wrapper">
-        <IconLoader />
-      </div>
-    </StyledLoader>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <StyledLoader className="loader" isMounted={isMounted}>
+        <div className="logo-wrapper">
+          <IconLoader />
+        </div>
+      </StyledLoader>
+    </StyleSheetManager>
   );
 };
 

@@ -2,8 +2,10 @@ import { DetailedHTMLProps, HTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 import { NAV_SCROLL_HEIGHT, NAV_SCROLL_HEIGHT_MOBILE, NAV_HEIGHT } from '@/lib/constants';
 
+type scrollDirection = 'up' | 'down';
+
 interface StyledHeaderProps extends DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> {
-  scrollDirection?: string; // Define the possible values for scrollDirection
+  scrollDirection?: scrollDirection; // Define the possible values for scrollDirection
   scrolledToTop?: boolean;
 }
 

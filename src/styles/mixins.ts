@@ -1,22 +1,24 @@
 import { css } from 'styled-components';
+import { hexa } from '@/utils';
 
 const button = css`
-  color: var(--green);
+  color: ${(props) => props.theme.brand.primary};
   background-color: transparent;
-  border: 1px solid var(--green);
-  border-radius: var(--border-radius);
-  font-size: var(--fz-xs);
-  font-family: var(--font-mono);
+  border: 1px solid ${(props) => props.theme.brand.primary};
+  border-radius: ${(props) => props.theme.borderRadius};
+  font-size: ${(props) => props.theme.fontSize.sm});
+  font-family: ${(props) => props.theme.fontFamily.fontMono};
   line-height: 1;
   text-decoration: none;
+  cursor: pointer;
+  transition: ${(props) => props.theme.transitions.default}
   padding: 1.25rem 1.75rem;
-  transition: var(--transition);
 
   &:hover,
-  &:focus-visible {
+  &:focus,
+  &:active {
+    background-color: ${(props) => hexa(props.theme.brand.primary, 0.1)};
     outline: none;
-    box-shadow: 4px 4px 0 0 var(--green);
-    transform: translate(-5px, -5px);
   }
   &:after {
     display: none !important;
@@ -42,67 +44,67 @@ const mixins = {
     text-decoration-skip-ink: auto;
     color: inherit;
     position: relative;
-    transition: var(--transition);
-
+    transition: ${(props) => props.theme.transitions.default};
+    cursor: pointer;
     &:hover,
-    &:focus-visible {
-      color: var(--green);
+    &:active,
+    &:focus {
+      color: ${(props) => props.theme.brand.primary};
       outline: 0;
     }
   `,
 
   inlineLink: css`
     display: inline-block;
+    text-decoration: none;
+    text-decoration-skip-ink: auto;
     position: relative;
-    color: var(--green);
-    transition: var(--transition);
-
+    transition: ${(props) => props.theme.transitions.default};
+    cursor: pointer;
+    color: ${(props) => props.theme.brand.primary};
     &:hover,
-    &:focus-visible {
-      color: var(--green);
+    &:focus,
+    &:active {
+      color: ${(props) => props.theme.brand.primary};
       outline: 0;
       &:after {
         width: 100%;
       }
       & > * {
-        color: var(--green) !important;
-        transition: var(--transition);
+        color: ${(props) => props.theme.brand.primary} !important;
+        transition: ${(props) => props.theme.transitions.default};
       }
     }
     &:after {
       content: '';
       display: block;
       width: 0;
-      height: 1px;
+      height: 2px;
       position: relative;
-      bottom: 0.37em;
-      background-color: var(--green);
+      top: 0.1em;
+      background-color: ${(props) => props.theme.brand.primary};
+      transition: ${(props) => props.theme.transitions.default};
       opacity: 0.5;
-      @media (prefers-reduced-motion: no-preference) {
-        transition: var(--transition);
-      }
     }
   `,
 
   button,
-
   smallButton: css`
-    color: var(--green);
+    color: ${(props) => props.theme.brand.primary};
     background-color: transparent;
-    border: 1px solid var(--green);
-    border-radius: var(--border-radius);
-    padding: 0.75rem 1rem;
-    font-size: var(--fz-xs);
-    font-family: var(--font-mono);
+    border: 2px solid ${(props) => props.theme.brand.primary};
+    border-radius: ${(props) => props.theme.borderRadiusButton};
+    padding: 0.75rem 1.5rem;
+    font-size: ${(props) => props.theme.fontSize.xs};
+    font-family: ${(props) => props.theme.fontFamily.fontMono}
     line-height: 1;
     text-decoration: none;
-    transition: var(--transition);
-
+    cursor: pointer;
+    transition: ${(props) => props.theme.transitions.default};
     &:hover,
-    &:focus-visible {
-      outline: none;
-      box-shadow: 3px 3px 0 0 var(--green);
-      transform: translate(-4px, -4px);
+    &:focus,
+    &:active {
+      background-color: ${(props) => hexa(props.theme.brand.primary, 0.1)};
     }
     &:after {
       display: none !important;
@@ -110,22 +112,21 @@ const mixins = {
   `,
 
   bigButton: css`
-    color: var(--green);
+    color: ${(props) => props.theme.brand.primary};
     background-color: transparent;
-    border: 1px solid var(--green);
-    border-radius: var(--border-radius);
+    border: 2px solid ${(props) => props.theme.brand.primary};
+    border-radius: ${(props) => props.theme.borderRadiusButton};
     padding: 1.25rem 1.75rem;
-    font-size: var(--fz-sm);
-    font-family: var(--font-mono);
+    font-size: ${(props) => props.theme.fontSize.sm};
+    font-family: ${(props) => props.theme.fontFamily.fontMono};
     line-height: 1;
     text-decoration: none;
-    transition: var(--transition);
-
+    cursor: pointer;
+    transition: ${(props) => props.theme.transitions.default};
     &:hover,
-    &:focus-visible {
-      outline: none;
-      box-shadow: 4px 4px 0 0 var(--green);
-      transform: translate(-5px, -5px);
+    &:focus,
+    &:active {
+      background-color: ${(props) => hexa(props.theme.brand.primary, 0.1)};
     }
     &:after {
       display: none !important;
@@ -133,12 +134,11 @@ const mixins = {
   `,
 
   boxShadow: css`
-    box-shadow: 0 10px 30px -15px var(--navy-shadow);
-    transition: var(--transition);
-
+    box-shadow: ${(props) => props.theme.shadows.default};
+    transition: ${(props) => props.theme.transitions.default};
     &:hover,
-    &:focus-visible {
-      box-shadow: 0 20px 30px -15px var(--navy-shadow);
+    &:focus {
+      box-shadow: ${(props) => props.theme.shadows.medium};
     }
   `,
 
@@ -146,7 +146,7 @@ const mixins = {
     padding: 0;
     margin: 0;
     list-style: none;
-    font-size: var(--fz-lg);
+    font-size: ${(props) => props.theme.fontSize.lg};
     li {
       position: relative;
       padding-left: 30px;
@@ -155,15 +155,9 @@ const mixins = {
         content: '▹';
         position: absolute;
         left: 0;
-        color: var(--green);
+        color: ${(props) => props.theme.brand.primary};
       }
     }
-  `,
-
-  resetList: css`
-    list-style: none;
-    padding: 0;
-    margin: 0;
   `,
 };
 
