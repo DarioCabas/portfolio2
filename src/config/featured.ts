@@ -9,31 +9,22 @@ export interface FeaturedProject {
 
 const featured: FeaturedProject[] = [
   {
-    title: 'NextUI',
-    cover: '/nextui.png',
-    github: 'https://github.com/nextui-org/nextui',
-    external: 'https://nextui.org',
+    title: 'AIG4U',
+    cover: '/aig4u.png',
+    github: '',
+    external: 'https://www.aig.com.ec/',
     descriptionHtml:
-      'React UI library with SSR support, fully customizable, responsive adaptative components, dark mode support, beautiful, modern and fast. <a target="_blank" rel="noreferrer" href="https://nextui.org">Go there</a> ',
-    techs: ['React', 'Typescript', 'Styled JSX'],
+      'This app permit to connect with all the team of a insurance, take a date, program, take notes ',
+    techs: ['React', 'Typescript', 'Mui'],
   },
   {
-    title: 'Devcover',
-    cover: '/devcover.jpg',
-    github: 'https://github.com/jrgarciadev/dev-cover',
-    external: 'https://devcover.me',
+    title: 'Ten5',
+    cover: '/ten5.png',
+    github: '',
+    external: 'https://www.ten5connect.com/',
     descriptionHtml:
-      'I won the <a target="_blank" rel="noreferrer" href="https://vercel.com">Vercel</a> & <a target="_blank" rel="noreferrer" href="https://hashnode.com">Hashnode</a> <a target="_blank" rel="noreferrer" href="https://townhall.hashnode.com/vercelhashnode-hackathon-winners">Hackaton</a> with this project which is the easiest way to generate a developer portfolio. Devcover collects the developer data from Github, Hashnode and Dev.to sites to build a great porfolio just with their Github username <a target="_blank" rel="noreferrer" href="https://blog.jrgarciadev.com/devcover-easiest-way-to-generate-a-developer-portfolio">Read blog</a> ',
-    techs: ['React', 'Javascript', 'Vercel'],
-  },
-  {
-    title: 'React Iconly',
-    cover: '/react-iconly.png',
-    github: 'https://github.com/jrgarciadev/react-iconly',
-    external: 'https://react-iconly.jrgarciadev.com',
-    descriptionHtml:
-      'Beautiful and pixel perfect React Icon Library, <a target="_blank" rel="noreferrer" href="https://piqodesign.gumroad.com/l/iconly">Iconly</a> is one of the options that is being used by designers and developers today, so I decided to create a library for React / Next.js / Gatsby that facilitates its use and that also allows us to customize any icon according to our needs.  <a target="_blank" rel="noreferrer" href="https://dev.to/jrgarciadev/beautiful-and-pixel-perfect-react-icon-library-2fnd">Blog Post</a>',
-    techs: ['React', 'Library', 'Icons'],
+      'Ten5 is a simple voice-based interface driven by our interactive voice experience (Ivex) technology. Drivers use brief commands to listen to pre-programmed information, ask questions and send comments. Fleet managers and executives use the same platform to respond quickly to driver questions and concerns and prioritize attention to individual drivers based on what they are saying, and how they’re saying it.  ',
+    techs: ['React', 'Typescript', 'Vercel'],
   },
 ];
 

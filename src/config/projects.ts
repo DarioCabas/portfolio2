@@ -8,34 +8,34 @@ export interface Project {
 
 const projects: Project[] = [
   {
-    title: 'Realtime TODO',
-    external: 'https://nextjs-todo-list.vercel.app/',
-    github: 'https://github.com/jrgarciadev/nextjs-todo-list',
+    title: 'Circle detection',
+    external: '',
+    github: 'https://github.com/DarioCabas/OPENCV_and_Arduino-Circle-Detection',
     descriptionHtml:
-      "Web application to add, edit, delete and assign to another person in <b>real-time</b>. My participation came out in one of his videos Minute: 29:35 -> <a target='_blank' href='https://www.youtube.com/watch?v=fyjNpvtzVhk'>Video</a>",
-    techs: ['Next.js', 'MaterialUI', 'Firebase'],
+      "This is a short description about the content of my proyect. In this project I detect circle objects using OPENCV and then I connected an arduino to send some data trought serial and move a servomotor when I detected a circle. This project could be more elaborated to recognize the radius of a cricle and clasificated a specific circle.",
+    techs: ['Python', 'OPENCV', 'Arduino'],
   },
   {
-    title: 'GSAP Slider Component',
-    external: 'https://nextjs-gsap-slider.vercel.app/',
-    github: 'https://github.com/jrgarciadev/nextjs-strapi-slider',
+    title: 'Two wheel robot in ros',
+    external: '',
+    github: 'https://github.com/DarioCabas/2wheel_robot',
     descriptionHtml:
-      'Web application to show modern slider, the slider images are management from Strapi CMS Panel',
-    techs: ['Next.js', 'Typescript', 'Strapi', 'GraphQL'],
+      'This is a short description about the content of my proyect. In this project I create a robot with ROS, we use a URDF model to construct our robot and uses the xacro files for more structure code of the robot in a different files. So in this present project you can see a robot based in two wheels and a caster front that can visualize en RVIZ that is a tool for visualization.',
+    techs: ['CMake', 'ROS', 'RVIZ'],
   },
   {
-    title: 'PWA Instagram for Pets',
-    external: 'https://petgram-chi-bice.now.sh/',
-    github: 'https://github.com/jrgarciadev/petgram',
-    descriptionHtml: 'Is a social Web & PWA application to upload, share and like pets photos',
-    techs: ['React.js', 'GraphQL', 'Apollo'],
+    title: 'Web interface for ROS',
+    external: '',
+    github: 'https://github.com/DarioCabas/ROS_Webpage',
+    descriptionHtml: 'This is a short description about the content of my proyect. In this project I create an interface using a web page trough HyperText Markup Language (HTML) and using some basic communication between the page and the robot that I made in RVIZ that is a 3D visualization tool for ROS. The objetive is control a two wheeled robot with the page web interface.',
+    techs: ['html', 'css', 'javascript', 'ROS'],
   },
   {
-    title: 'Framework components for Vue.js',
-    external: 'https://vuesax.com',
-    github: 'https://github.com/jrgarciadev/vuesax',
-    descriptionHtml: 'I sometimes contributed to a Vue.js components framework, Vuesax.',
-    techs: ['Vue.js', 'Javascript', 'LESS'],
+    title: 'Template for an email',
+    external: '',
+    github: 'https://github.com/DarioCabas/TEMPLATE_EMAIL',
+    descriptionHtml: 'This is a short description about the content of my proyect. In this project I create a template that you can send in an e-mail.This template was created using HMTL and CSS also this template is responsive with your screen of your devices.',
+    techs: ['html', 'css'],
   },
 ];
 
