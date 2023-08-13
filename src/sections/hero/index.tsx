@@ -4,9 +4,9 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import config from '@/config';
 import { NAV_DELAY, LOADER_DELAY } from '@/lib/constants';
 import { StyledHeroSection, StyledBigTitle } from './styles';
-
+import { StyleSheetManager } from 'styled-components';
 const Hero = () => {
-  const { email} = config
+  const { email } = config
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -31,17 +31,21 @@ const Hero = () => {
 
   const items = [one, two, three, four, five];
 
+  const shouldForwardProp = (prop: any) => prop !== 'isMounted';
+
   return (
-    <StyledHeroSection>
-      <TransitionGroup component={null}>
-        {isMounted &&
-          items.map((item, i) => (
-            <CSSTransition key={i} classNames="fadeup" timeout={LOADER_DELAY}>
-              <div style={{ transitionDelay: `${i + 1}00ms` }}>{item}</div>
-            </CSSTransition>
-          ))}
-      </TransitionGroup>
-    </StyledHeroSection>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <StyledHeroSection>
+        <TransitionGroup component={null}>
+          {isMounted &&
+            items.map((item, i) => (
+              <CSSTransition key={i} classNames="fadeup" timeout={LOADER_DELAY}>
+                <div style={{ transitionDelay: `${i + 1}00ms` }}>{item}</div>
+              </CSSTransition>
+            ))}
+        </TransitionGroup>
+      </StyledHeroSection>
+    </StyleSheetManager>
   );
 };
 

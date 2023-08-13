@@ -18,14 +18,7 @@ const BaseLayout: React.FC<BaseLayoutProps> = ({ children }) => {
         <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
         <link rel="manifest" href="/images/site.webmanifest" />
 
-        <link
-          href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;800&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
-          rel="stylesheet"
-        />
+
 
       </Head>
       {children}

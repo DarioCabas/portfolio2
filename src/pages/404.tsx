@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled from 'styled-components';
 import { NAV_DELAY } from '@/lib/constants';
+import { StyleSheetManager } from 'styled-components';
 
 const StyledMainContainer = styled.main`
   ${({ theme }) => theme.mixins?.flexCenter};
@@ -31,20 +32,23 @@ const NotFoundPage = () => {
     return () => clearTimeout(timeout);
   }, []);
 
+  const shouldForwardProp = (prop: any) => prop !== 'isMounted';
   return (
-    <TransitionGroup component={null}>
-      {isMounted && (
-        <CSSTransition timeout={500} classNames="fadeup">
-          <StyledMainContainer className="fillHeight">
-            <StyledTitle>404</StyledTitle>
-            <StyledSubtitle>Page Not Found</StyledSubtitle>
-            <Link href="/">
-              <StyledHomeButton>Go Home</StyledHomeButton>
-            </Link>
-          </StyledMainContainer>
-        </CSSTransition>
-      )}
-    </TransitionGroup>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <TransitionGroup component={null}>
+        {isMounted && (
+          <CSSTransition timeout={500} classNames="fadeup">
+            <StyledMainContainer className="fillHeight">
+              <StyledTitle>404</StyledTitle>
+              <StyledSubtitle>Page Not Found</StyledSubtitle>
+              <Link href="/">
+                <StyledHomeButton>Go Home</StyledHomeButton>
+              </Link>
+            </StyledMainContainer>
+          </CSSTransition>
+        )}
+      </TransitionGroup>
+    </StyleSheetManager>
   );
 };
 
