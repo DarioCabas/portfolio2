@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import { DefaultTheme, withTheme } from 'styled-components';
-import PropTypes from 'prop-types';
 import { FC } from 'react';
 
 interface IconLogoProps {
@@ -44,12 +43,6 @@ const IconLogo: FC<IconLogoProps> = ({ theme, width = 36.581, height = 50.186, .
     />
   </svg>
   );
-};
-
-IconLogo.propTypes = {
-  theme: PropTypes.object,
-  width: PropTypes.number,
-  height: PropTypes.number,
 };
 
 export default withTheme(IconLogo);

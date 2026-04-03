@@ -17,7 +17,10 @@ export const StyledHeader = styled.header<StyledHeaderProps>`
   padding: 0px 50px;
   width: 100%;
   height: ${NAV_HEIGHT}px;
-  background-color: ${(props) => props.theme.bg?.default};
+  background-color: rgba(18, 14, 38, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(6, 147, 227, 0.06);
   filter: none !important;
   pointer-events: auto !important;
   user-select: auto !important;

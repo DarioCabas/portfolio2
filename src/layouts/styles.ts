@@ -63,7 +63,7 @@ export const SkipToContentLink = styled.a`
     text-decoration: none;
     cursor: pointer;
     overflow: auto;
-    transition: ${(props) => props.theme.transition?.default};
+    transition: ${(props) => props.theme.transitions?.default};
     z-index: 99;
   }
 `;

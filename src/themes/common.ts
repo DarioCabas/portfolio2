@@ -5,13 +5,16 @@ export default {
   borderRadiusButton: '2.375rem',
   hamburgerWidth: '3rem',
   fontFamily: {
-    fontSans: 'Open Sans, -apple-system, BlinkMacSystemFont,Segoe UI, Helvetica, Arial',
+    fontSans: 'Inter, Open Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial',
     fontMono: 'Space Mono, SF Mono, Fira Code, Fira Mono, Roboto Mono, monospace',
   },
   brand: {
     primary: '#0693E3',
     secondary: '#0693E3',
     accent: '#5FC921',
+    purple: '#7C3AED',
+    gradient: 'linear-gradient(135deg, #0693E3 0%, #7C3AED 100%)',
+    gradientText: 'linear-gradient(135deg, #0693E3 0%, #a78bfa 100%)',
   },
   fontSize: {
     xxs: '0.9rem',

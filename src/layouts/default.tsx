@@ -1,5 +1,4 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 
 import { SkipToContentLink } from './styles';
@@ -10,6 +9,9 @@ import Footer from './footer';
 import Loader from '@/components/loader';
 import Social from '@/components/social';
 import Email from '@/components/email';
+import ScrollProgress from '@/components/scroll-progress';
+import dynamic from 'next/dynamic';
+const QrWidget = dynamic(() => import('@/components/qr-widget'), { ssr: false });
 
 
 interface DefaultLayoutProps {
@@ -51,6 +53,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
           <Loader onFinish={handleFinish} />
         ) : (
           <>
+            <ScrollProgress />
             <Navbar isHome={isHome} />
             <Social isHome={isHome} />
             <Email isHome={isHome} />
@@ -58,15 +61,12 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
               {children}
             </Main>
             <Footer />
+            <QrWidget />
           </>
         )}
       </>
     </BaseLayout>
   );
-};
-
-DefaultLayout.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
 export default DefaultLayout;

@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import PropTypes from 'prop-types';
 import { MainContainer } from './styles';
 
 interface MainProps {
@@ -13,11 +12,5 @@ const Main: React.FC<MainProps> = ({ id, children, className }) => (
     {children}
   </MainContainer>
 );
-
-Main.propTypes = {
-  id: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-};
 
 export default Main;

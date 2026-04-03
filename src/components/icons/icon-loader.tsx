@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import React, { FC } from 'react';
 import { withTheme } from 'styled-components';
-import PropTypes from 'prop-types';
 
 interface IconLoaderProps {
   theme?: any;
@@ -44,9 +43,5 @@ const IconLoader: FC<IconLoaderProps> = ({ theme }) => (
     />
   </svg>
 );
-
-IconLoader.propTypes = {
-  theme: PropTypes.object,
-};
 
 export default withTheme(IconLoader);

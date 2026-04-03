@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import config from '@/config'
 import { StyledSocialList } from './styles';
 import Side from '../side';
@@ -27,9 +26,5 @@ const Social = ({ isHome }: SocialProps) => {
 }
 
 
-
-Social.propTypes = {
-  isHome: PropTypes.bool,
-};
 
 export default Social;

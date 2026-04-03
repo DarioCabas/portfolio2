@@ -1,6 +1,5 @@
 import { useState, useEffect, FC } from 'react';
 import Link from 'next/link';
-import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import config from '@/config';
 import { LOADER_DELAY } from '@/lib/constants';

@@ -67,7 +67,7 @@ export const NumberedHeading = styled.h2<NumberedHeadingProps>`
     width: 300px;
     height: 1px;
     margin-left: 20px;
-    background-color: ${(props) => hexa(props.theme.brand?.primary, 0.4)};
+    background: linear-gradient(90deg, rgba(6,147,227,0.6), rgba(124,58,237,0.2), transparent);
 
     @media (max-width: ${(props) => props.theme.breakpoints?.lg}) {
       width: 200px;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import anime from 'animejs';
 import { StyleSheetManager } from 'styled-components';
 import { StyledLoader } from './styles';
@@ -44,10 +43,6 @@ const Loader = ({ onFinish }: LoaderProps) => {
       </StyledLoader>
     </StyleSheetManager>
   );
-};
-
-Loader.propTypes = {
-  onFinish: PropTypes.func.isRequired,
 };
 
 export default Loader;
