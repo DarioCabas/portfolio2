@@ -387,6 +387,48 @@ body.menu-open #mobile-menu {
   transform: translateX(0);
 }
 
+/* ─── Mobile Close Button ────────────────────────────────────────────────── */
+.mobile-close-btn {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  z-index: 1100;
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.7);
+  transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s;
+}
+.mobile-close-btn span {
+  position: absolute;
+  display: block;
+  width: 26px;
+  height: 2px;
+  background: var(--color-brand-blue);
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+.mobile-close-btn span:nth-child(1) {
+  transform: rotate(45deg);
+}
+.mobile-close-btn span:nth-child(2) {
+  transform: rotate(-45deg);
+}
+.mobile-close-btn:hover span {
+  background: var(--color-text);
+}
+body.menu-open .mobile-close-btn {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
 .mobile-nav-links {
   display: flex;
   flex-direction: column;
