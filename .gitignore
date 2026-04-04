@@ -35,3 +35,6 @@ yarn-error.log*
 # Old project backup (local only)
 _nextjs_backup/
 .next/
+
+# npm config (may contain registry tokens)
+.npmrc
