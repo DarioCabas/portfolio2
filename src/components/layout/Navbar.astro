@@ -35,6 +35,14 @@ import Logo from '@/components/icons/Logo.astro';
 
 <!-- Mobile menu -->
 <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true">
+  <button
+    class="mobile-close-btn"
+    id="mobile-close-btn"
+    aria-label="Close menu"
+  >
+    <span></span>
+    <span></span>
+  </button>
   <nav>
     <ul class="mobile-nav-links">
       {navLinks.map((link) => (
@@ -52,6 +60,7 @@ import Logo from '@/components/icons/Logo.astro';
   const navbar = document.getElementById('navbar')!;
   const hamburger = document.getElementById('hamburger-btn')!;
   const mobileMenu = document.getElementById('mobile-menu')!;
+  const mobileCloseBtn = document.getElementById('mobile-close-btn')!;
 
   // Show navbar after loader
   window.addEventListener('loader:done', () => {
@@ -103,6 +112,8 @@ import Logo from '@/components/icons/Logo.astro';
   hamburger.addEventListener('click', () => {
     document.body.classList.contains('menu-open') ? closeMenu() : openMenu();
   });
+
+  mobileCloseBtn.addEventListener('click', closeMenu);
 
   // Close on ESC
   document.addEventListener('keydown', (e) => {
