@@ -33,7 +33,7 @@ import { email } from '@/data/config';
 
     // Close on outside click
     document.addEventListener('click', (e) => {
-      if (!document.getElementById('qr-widget')?.contains(e.target as Node)) {
+      if (!document.getElementById('qr-widget')?.contains(/** @type {Node} */ (e.target))) {
         popup.classList.remove('visible');
         toggle.setAttribute('aria-expanded', 'false');
       }
