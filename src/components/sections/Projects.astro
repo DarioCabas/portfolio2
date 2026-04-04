@@ -1,0 +1,70 @@
+---
+import projects from '@/data/projects';
+import GitHub from '@/components/icons/GitHub.astro';
+import External from '@/components/icons/External.astro';
+import Folder from '@/components/icons/Folder.astro';
+
+const accentClasses = ['card--blue','card--purple','card--cyan','card--emerald','card--rose'];
+---
+
+<section aria-labelledby="other-projects-heading">
+  <div class="other-projects-header" data-reveal="fade-up">
+    <h2 id="other-projects-heading" class="other-projects-title">Other Projects</h2>
+    <a href="https://github.com/DarioCabas" target="_blank" rel="noreferrer" class="archive-link">
+      view the full archive →
+    </a>
+  </div>
+
+  <ul class="projects-bento" aria-label="Other projects">
+    {projects.map((project, i) => (
+      <li
+        class={`project-card ${accentClasses[i % accentClasses.length]}`}
+        data-reveal="scale"
+        data-reveal-delay={String(i * 80)}
+        tabindex="0"
+        role="article"
+        aria-label={project.title}
+        {...(project.external || project.github
+          ? { 'data-link': project.external || project.github }
+          : {})}
+      >
+        <div class="project-card-top">
+          <div class="project-folder" aria-hidden="true"><Folder /></div>
+          <div class="project-card-links">
+            {project.github && (
+              <a href={project.github} target="_blank" rel="noreferrer noopener"
+                 aria-label={`${project.title} GitHub`} tabindex="-1">
+                <GitHub />
+              </a>
+            )}
+            {project.external && (
+              <a href={project.external} target="_blank" rel="noreferrer noopener"
+                 aria-label={`${project.title} live`} tabindex="-1">
+                <External />
+              </a>
+            )}
+          </div>
+        </div>
+
+        <h3 class="project-card-title">{project.title}</h3>
+        <p class="project-card-desc">{project.description}</p>
+
+        <ul class="project-tech-list" aria-label="Technologies">
+          {project.techs.map((tech) => <li>{tech}</li>)}
+        </ul>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<script>
+  // Keyboard navigation for project cards
+  document.querySelectorAll<HTMLElement>('.project-card[data-link]').forEach((card) => {
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const link = card.dataset.link;
+        if (link) window.open(link, '_blank', 'noreferrer');
+      }
+    });
+  });
+</script>

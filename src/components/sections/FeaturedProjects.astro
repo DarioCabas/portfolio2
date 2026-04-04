@@ -1,0 +1,48 @@
+---
+import featuredProjects from '@/data/featured-projects';
+---
+
+<section id="projects" aria-labelledby="featured-heading">
+  <h2 class="numbered-heading" id="featured-heading" data-reveal="fade-up">
+    Some Projects I've Built
+  </h2>
+
+  <div class="fp-list">
+    {featuredProjects.map((project, i) => (
+      <article class="fp-card" data-reveal="fade-up" data-reveal-delay={String(i * 120)}>
+        <!-- Large background index number -->
+        <span class="fp-index" aria-hidden="true">0{i + 1}</span>
+
+        <!-- Image side -->
+        <div class="fp-visual">
+          <div class="fp-img-frame">
+            <img
+              src={project.cover}
+              alt={project.title}
+              loading="lazy"
+              decoding="async"
+              class="fp-img"
+            />
+            <div class="fp-img-overlay" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- Content side -->
+        <div class="fp-body">
+          <p class="fp-overline">Featured Project</p>
+          <h3 class="fp-title">{project.title}</h3>
+          <div class="fp-desc-card">
+            <p>{project.description}</p>
+          </div>
+          <ul class="fp-techs" aria-label="Technologies used">
+            {project.techs.map((tech, ti) => (
+              <li class={`fp-tech fp-tech--${ti % 3 === 0 ? 'blue' : ti % 3 === 1 ? 'purple' : 'cyan'}`}>
+                {tech}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

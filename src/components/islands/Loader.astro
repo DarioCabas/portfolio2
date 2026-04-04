@@ -1,0 +1,40 @@
+---
+import { LOADER_DELAY } from '@/utils/constants';
+import Logo from '@/components/icons/Logo.astro';
+---
+
+<div id="loader" role="status" aria-label="Loading">
+  <div class="logo-wrapper">
+    <div id="logo">
+      <Logo width={120} height={120} />
+    </div>
+  </div>
+</div>
+
+<script>
+  import anime from 'animejs';
+  import { LOADER_DELAY } from '@/utils/constants';
+
+  const loader = document.getElementById('loader');
+  const logo = document.getElementById('logo');
+
+  if (loader && logo) {
+    const tl = anime.timeline({
+      complete: () => {
+        loader.classList.add('hidden');
+        loader.addEventListener('transitionend', () => loader.remove(), { once: true });
+        // Signal the rest of the page
+        window.dispatchEvent(new CustomEvent('loader:done'));
+      },
+    });
+
+    tl.add({
+      targets: '#logo',
+      delay: LOADER_DELAY - 300,
+      duration: 300,
+      easing: 'easeInOutSine',
+      opacity: [1, 0],
+      scale: [1, 0.1],
+    });
+  }
+</script>

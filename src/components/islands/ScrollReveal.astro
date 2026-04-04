@@ -1,0 +1,134 @@
+---
+// No props — this island observes all [data-reveal] elements on the page
+---
+
+<script>
+  function initScrollReveal() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const elements = document.querySelectorAll<HTMLElement>('[data-reveal]');
+
+    if (prefersReducedMotion) {
+      elements.forEach((el) => el.classList.add('revealed'));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const delay = Number(el.dataset.revealDelay ?? 0);
+          setTimeout(() => el.classList.add('revealed'), delay);
+          observer.unobserve(el);
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+  }
+
+  // ─── Scroll-driven parallax ───────────────────────────────────────────────
+  function initParallax() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // Parallax for fp-index numbers (they move slower than the scroll)
+    const targets = document.querySelectorAll<HTMLElement>('.fp-index');
+    if (!targets.length) return;
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const el = entry.target as HTMLElement;
+          if (entry.isIntersecting) {
+            el.dataset.active = 'true';
+          } else {
+            el.dataset.active = 'false';
+          }
+        });
+      },
+      { threshold: 0 }
+    );
+
+    targets.forEach((el) => obs.observe(el));
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      requestAnimationFrame(() => {
+        targets.forEach((el) => {
+          if (el.dataset.active !== 'true') return;
+          const rect = el.closest('.fp-card')!.getBoundingClientRect();
+          const progress = -rect.top / (window.innerHeight + rect.height);
+          const y = progress * 60;
+          el.style.transform = `translate(-50%, calc(-50% + ${y}px))`;
+        });
+
+        // Subtle parallax on section headings
+        document.querySelectorAll<HTMLElement>('.numbered-heading').forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top > window.innerHeight || rect.bottom < 0) return;
+          const progress = (window.innerHeight - rect.top) / window.innerHeight;
+          el.style.setProperty('--parallax-y', `${(1 - progress) * 20}px`);
+        });
+
+        ticking = false;
+      });
+      ticking = true;
+    }, { passive: true });
+  }
+
+  // ─── Cursor glow effect ───────────────────────────────────────────────────
+  function initCursorGlow() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    const glow = document.createElement('div');
+    glow.id = 'cursor-glow';
+    glow.style.cssText = `
+      position: fixed; pointer-events: none; z-index: 9999;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(6,147,227,0.06) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+      opacity: 0;
+    `;
+    document.body.appendChild(glow);
+
+    let cx = 0, cy = 0, tx = 0, ty = 0;
+    let rafId: number;
+
+    document.addEventListener('mousemove', (e) => {
+      tx = e.clientX; ty = e.clientY;
+      glow.style.opacity = '1';
+    });
+    document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+
+    function loop() {
+      cx += (tx - cx) * 0.12;
+      cy += (ty - cy) * 0.12;
+      glow.style.left = cx + 'px';
+      glow.style.top  = cy + 'px';
+      rafId = requestAnimationFrame(loop);
+    }
+    loop();
+
+    document.addEventListener('astro:before-swap', () => {
+      cancelAnimationFrame(rafId);
+      glow.remove();
+    }, { once: true });
+  }
+
+  window.addEventListener('loader:done', () => {
+    setTimeout(() => {
+      initScrollReveal();
+      initParallax();
+      initCursorGlow();
+    }, 200);
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    setTimeout(initScrollReveal, 100);
+  });
+</script>

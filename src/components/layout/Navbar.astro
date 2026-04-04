@@ -1,0 +1,125 @@
+---
+import { navLinks } from '@/data/config';
+import Logo from '@/components/icons/Logo.astro';
+---
+
+<header id="navbar" class="pre-loader" role="banner">
+  <div class="nav-logo">
+    <a href="/" aria-label="Darío Cabascango — Home">
+      <Logo width={48} height={48} />
+    </a>
+  </div>
+
+  <nav aria-label="Main navigation">
+    <ul class="nav-links">
+      {navLinks.map((link) => (
+        <li>
+          <a href={link.url}>{link.name}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <button
+    class="hamburger-btn"
+    id="hamburger-btn"
+    aria-label="Toggle menu"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</header>
+
+<!-- Mobile menu -->
+<div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true">
+  <nav>
+    <ul class="mobile-nav-links">
+      {navLinks.map((link) => (
+        <li>
+          <a href={link.url} class="mobile-nav-link">{link.name}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</div>
+
+<script>
+  import { LOADER_DELAY } from '@/utils/constants';
+
+  const navbar = document.getElementById('navbar')!;
+  const hamburger = document.getElementById('hamburger-btn')!;
+  const mobileMenu = document.getElementById('mobile-menu')!;
+
+  // Show navbar after loader
+  window.addEventListener('loader:done', () => {
+    navbar.classList.remove('pre-loader');
+  });
+
+  // Scroll direction detection
+  let lastScroll = 0;
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const current = window.scrollY;
+        if (current > 100) {
+          navbar.classList.add('scrolled');
+          if (current > lastScroll) {
+            navbar.classList.add('hidden');
+          } else {
+            navbar.classList.remove('hidden');
+          }
+        } else {
+          navbar.classList.remove('scrolled', 'hidden');
+        }
+        lastScroll = current;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  // Hamburger menu
+  function openMenu() {
+    document.body.classList.add('menu-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    hamburger.setAttribute('aria-expanded', 'true');
+    // Focus first link
+    const firstLink = mobileMenu.querySelector<HTMLAnchorElement>('a');
+    firstLink?.focus();
+  }
+
+  function closeMenu() {
+    document.body.classList.remove('menu-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.focus();
+  }
+
+  hamburger.addEventListener('click', () => {
+    document.body.classList.contains('menu-open') ? closeMenu() : openMenu();
+  });
+
+  // Close on ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+      closeMenu();
+    }
+  });
+
+  // Close on mobile link click
+  mobileMenu.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close on resize to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768 && document.body.classList.contains('menu-open')) {
+      closeMenu();
+    }
+  });
+</script>

@@ -1,0 +1,117 @@
+---
+import { email, socialLinks } from "@/data/config";
+import GitHub from "@/components/icons/GitHub.astro";
+import LinkedIn from "@/components/icons/LinkedIn.astro";
+import Instagram from "@/components/icons/Instagram.astro";
+import Twitter from "@/components/icons/Twitter.astro";
+
+const socials = [
+  {
+    name: "GitHub",
+    url: socialLinks.find((l) => l.name === "GitHub")?.url ?? "",
+    handle: "@DarioCabas",
+    color: "social-tile--github",
+  },
+  {
+    name: "LinkedIn",
+    url: socialLinks.find((l) => l.name === "LinkedIn")?.url ?? "",
+    handle: "dario-cabascango",
+    color: "social-tile--linkedin",
+  },
+];
+---
+
+<section id="contact" aria-labelledby="contact-heading">
+  <!-- decorative top line -->
+  <div class="ct-topline" aria-hidden="true"></div>
+
+  <!-- overline -->
+  <p class="ct-overline" data-reveal="fade-up">What's Next?</p>
+
+  <!-- heading -->
+  <h2
+    class="ct-heading"
+    id="contact-heading"
+    data-reveal="fade-up"
+    data-reveal-delay="80"
+  >
+    Let's build<br />
+    <span class="ct-heading-gradient">something great.</span>
+  </h2>
+
+  <!-- body -->
+  <p class="ct-body" data-reveal="fade-up" data-reveal-delay="160">
+    Whether you have a project in mind, want to collaborate,<br class="ct-br" />
+    or just want to say hi. I'm always open for a chat.
+  </p>
+
+  <!-- primary CTA -->
+  <a
+    class="ct-email-cta"
+    href={`mailto:${email}`}
+    data-reveal="fade-up"
+    data-reveal-delay="220"
+  >
+    <span class="ct-email-text">{email}</span>
+    <span class="ct-email-arrow" aria-hidden="true">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+      >
+        <path d="M5 12h14M12 5l7 7-7 7"></path>
+      </svg>
+    </span>
+  </a>
+
+  <!-- divider -->
+  <div
+    class="ct-divider"
+    aria-hidden="true"
+    data-reveal="fade-up"
+    data-reveal-delay="280"
+  >
+    <span></span>
+    <span class="ct-divider-label">find me on</span>
+    <span></span>
+  </div>
+
+  <!-- social tiles grid -->
+  <ul
+    class="ct-socials"
+    aria-label="Social media links"
+    data-reveal="fade-up"
+    data-reveal-delay="340"
+  >
+    {
+      socials
+        .filter((s) => s.url)
+        .map((s) => (
+          <li>
+            <a
+              href={s.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              class={`ct-tile ${s.color}`}
+              aria-label={`${s.name} — ${s.handle}`}
+            >
+              <span class="ct-tile-icon" aria-hidden="true">
+                {s.name === "GitHub" && <GitHub />}
+                {s.name === "LinkedIn" && <LinkedIn />}
+              </span>
+              <span class="ct-tile-info">
+                <span class="ct-tile-name">{s.name}</span>
+                <span class="ct-tile-handle">{s.handle}</span>
+              </span>
+              <span class="ct-tile-arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </li>
+        ))
+    }
+  </ul>
+</section>

@@ -1,0 +1,108 @@
+---
+import skills from '@/data/skills';
+
+// Color palette for skill pills — all pass WCAG AA on dark bg
+const skillColors = [
+  'skill--blue',
+  'skill--purple',
+  'skill--cyan',
+  'skill--emerald',
+  'skill--rose',
+  'skill--amber',
+  'skill--blue',
+];
+---
+
+<section id="about" aria-labelledby="about-heading">
+  <h2 class="numbered-heading" id="about-heading" data-reveal="fade-up">About Me</h2>
+
+  <div class="about-inner">
+
+    <!-- Left: text panel -->
+    <div class="about-panel" data-reveal="fade-left" data-reveal-delay="100">
+
+      <div class="about-panel-header" aria-hidden="true">
+        <span class="about-panel-dot dot--blue"></span>
+        <span class="about-panel-dot dot--purple"></span>
+        <span class="about-panel-dot dot--cyan"></span>
+      </div>
+
+      <div class="about-text">
+        <p>
+          Hello! I'm a <span class="text-accent-blue">Software Developer</span> based in Quito, Ecuador.
+          I enjoy creating beautiful and reliable applications for the
+          <span class="text-accent-cyan">web</span> and <span class="text-accent-purple">mobile</span>.
+        </p>
+        <p>
+          My goal is to build <span class="text-accent-emerald">scalable products</span> and
+          performant experiences that people love to use. I care deeply about
+          <span class="text-accent-rose">clean architecture</span>, accessibility, and
+          writing code that's maintainable long-term.
+        </p>
+      </div>
+
+      <!-- Quick facts row -->
+      <div class="about-facts">
+        <div class="about-fact">
+          <span class="about-fact-icon">🚀</span>
+          <div>
+            <p class="about-fact-label">Experience</p>
+            <p class="about-fact-val">3+ years</p>
+          </div>
+        </div>
+        <div class="about-fact">
+          <span class="about-fact-icon">📍</span>
+          <div>
+            <p class="about-fact-label">Location</p>
+            <p class="about-fact-val">Quito, EC</p>
+          </div>
+        </div>
+        <div class="about-fact">
+          <span class="about-fact-icon">🎯</span>
+          <div>
+            <p class="about-fact-label">Focus</p>
+            <p class="about-fact-val">Full-stack</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-divider" aria-hidden="true"></div>
+
+      <p class="skills-label">Tech Stack</p>
+      <ul class="skills-list" aria-label="Tech stack">
+        {skills.map((skill, i) => (
+          <li class={`skill-pill ${skillColors[i % skillColors.length]}`}>{skill}</li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Right: photo -->
+    <div class="about-photo-col" data-reveal="fade-right" data-reveal-delay="200">
+      <div class="about-pic-frame">
+        <div class="about-pic-border" aria-hidden="true"></div>
+        <div class="about-pic">
+          <img
+            src="/avatar.png"
+            alt="Darío Cabascango"
+            width="360"
+            height="480"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+
+      <!-- Floating badge -->
+      <div class="about-float-badge" aria-label="Location">
+        <span class="about-float-icon">🇪🇨</span>
+        <span>Quito, Ecuador</span>
+      </div>
+
+      <!-- Decorative dots grid -->
+      <div class="about-dots" aria-hidden="true">
+        {Array.from({length: 25}).map(() => <span></span>)}
+      </div>
+    </div>
+
+  </div>
+</section>
