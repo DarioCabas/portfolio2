@@ -102,18 +102,18 @@ import Logo from '@/components/icons/Logo.astro';
     firstLink?.focus();
   }
 
-  function closeMenu() {
+  function closeMenu(returnFocus = true) {
     document.body.classList.remove('menu-open');
     mobileMenu.setAttribute('aria-hidden', 'true');
     hamburger.setAttribute('aria-expanded', 'false');
-    hamburger.focus();
+    if (returnFocus) hamburger.focus();
   }
 
   hamburger.addEventListener('click', () => {
     document.body.classList.contains('menu-open') ? closeMenu() : openMenu();
   });
 
-  mobileCloseBtn.addEventListener('click', closeMenu);
+  mobileCloseBtn.addEventListener('click', () => closeMenu());
 
   // Close on ESC
   document.addEventListener('keydown', (e) => {
@@ -122,9 +122,9 @@ import Logo from '@/components/icons/Logo.astro';
     }
   });
 
-  // Close on mobile link click
+  // Close on mobile link click — no focus steal so anchor navigation works
   mobileMenu.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', closeMenu);
+    link.addEventListener('click', () => closeMenu(false));
   });
 
   // Close on resize to desktop
