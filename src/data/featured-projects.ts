@@ -14,7 +14,7 @@ const featuredProjects: FeaturedProject[] = [
     github: "",
     external: "https://www.aig.com.ec/",
     description:
-      "Insurance platform that connects the full team-book appointments, manage schedules, take notes, and coordinate across the organization in one unified workspace.",
+      "Insurance platform where the whole team books appointments, manages schedules, takes notes and coordinates in one shared workspace.",
     techs: ["React", "TypeScript", "MUI"],
   },
   {
@@ -23,8 +23,17 @@ const featuredProjects: FeaturedProject[] = [
     github: "",
     external: "https://www.ten5connect.com/",
     description:
-      "Voice-based fleet management interface powered by interactive voice experience (Ivex) technology. Drivers use brief voice commands to access information and send comments while fleet managers monitor and respond in real time.",
+      "Voice-first fleet management: drivers use short commands to get information and leave comments while managers monitor and respond in real time.",
     techs: ["React", "TypeScript", "Vercel"],
+  },
+  {
+    title: "Buk",
+    cover: "/buk.png",
+    github: "",
+    external: "https://www.buk.cl/",
+    description:
+      "HR and payroll platform used by companies across Latin America. I built and maintained product features across the Rails backend and the jQuery front end.",
+    techs: ["Ruby on Rails", "jQuery", "JavaScript", "HTML", "CSS", "Bootstrap", "PostgreSQL"],
   },
 ];
 

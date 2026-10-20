@@ -1,0 +1,94 @@
+---
+import AiConcepts from '@/components/ui/AiConcepts.astro';
+import { aiLead, aiPractices } from '@/data/ai-engineering';
+---
+
+<section id="ai" class="section" aria-labelledby="ai-heading">
+  <div class="container">
+    <h2 class="section-heading" id="ai-heading" data-reveal>AI-native engineering</h2>
+    <p class="ai-lead" data-reveal style="--reveal-delay: 80ms">{aiLead}</p>
+
+    <ul class="ai-practices">
+      {aiPractices.map((practice, index) => (
+        <li class="ai-practice" data-reveal style={`--reveal-delay: ${index * 90}ms`}>
+          <h3>{practice.title}</h3>
+          <p>{practice.description}</p>
+        </li>
+      ))}
+    </ul>
+
+    <h3 class="ai-subheading" data-reveal>Concepts I work with</h3>
+    <AiConcepts />
+
+  </div>
+</section>
+
+<style>
+  .ai-lead {
+    max-width: 36ch;
+    margin-top: -1rem;
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+    font-size: var(--step-2);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+
+  .ai-practices {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  .ai-practice {
+    position: relative;
+    padding-block: 1.5rem 2rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* Marigold line draws across the top rule as each item appears */
+  .ai-practice::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 3rem;
+    height: 2px;
+    background: var(--marigold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s var(--ease-out) calc(var(--reveal-delay, 0ms) + 200ms);
+  }
+
+  .ai-practice.is-visible::before,
+  :global(html:not(.js)) .ai-practice::before {
+    transform: scaleX(1);
+  }
+
+  @media (forced-colors: active) {
+    .ai-practice::before {
+      display: none;
+    }
+  }
+
+  .ai-practice h3 {
+    font-size: var(--step-1);
+    margin-bottom: 0.5rem;
+  }
+
+  .ai-practice p {
+    color: var(--muted);
+    max-width: 44ch;
+  }
+
+  .ai-subheading {
+    margin-top: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 1rem;
+    font-size: var(--step-1);
+  }
+
+  @media (max-width: 900px) {
+    .ai-practices {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

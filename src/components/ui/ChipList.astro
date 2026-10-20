@@ -1,0 +1,74 @@
+---
+import { iconFor } from '@/data/tech-icons';
+
+interface Props {
+  items: string[];
+  label: string;
+}
+
+const { items, label } = Astro.props;
+const chips = items.map((name) => ({ name, icon: iconFor(name) }));
+---
+
+<ul class="chips" aria-label={label}>
+  {chips.map(({ name, icon }) => (
+    <li class="chip" style={icon?.hoverColor ? `--brand: ${icon.hoverColor}` : undefined}>
+      {icon && (
+        <svg class="chip-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d={icon.path} />
+        </svg>
+      )}
+      {name}
+    </li>
+  ))}
+</ul>
+
+<style>
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* One neutral chip for everything; the logo carries identity, not a rainbow of fills */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    transition: border-color 0.2s var(--ease-out);
+  }
+
+  .chip-icon {
+    width: 0.95rem;
+    height: 0.95rem;
+    flex-shrink: 0;
+    fill: var(--muted);
+    transition: fill 0.25s var(--ease-out);
+  }
+
+  .chip:hover {
+    border-color: color-mix(in srgb, var(--brand, var(--lilac)) 60%, var(--rule));
+  }
+
+  .chip:hover .chip-icon {
+    fill: var(--brand, var(--text));
+  }
+
+  @media (forced-colors: active) {
+    .chip {
+      border-color: CanvasText;
+    }
+
+    .chip-icon {
+      fill: CanvasText;
+    }
+  }
+</style>

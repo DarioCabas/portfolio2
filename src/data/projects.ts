@@ -12,7 +12,7 @@ const projects: Project[] = [
     github: 'https://github.com/DarioCabas/OPENCV_and_Arduino-Circle-Detection',
     external: '',
     description:
-      'Detects circular objects using OpenCV and connects to an Arduino via serial communication to move a servomotor upon detection.',
+      'Spots circular objects with OpenCV and signals an Arduino over serial to move a servomotor.',
     techs: ['Python', 'OpenCV', 'Arduino'],
   },
   {
@@ -20,7 +20,7 @@ const projects: Project[] = [
     github: 'https://github.com/DarioCabas/2wheel_robot',
     external: '',
     description:
-      'Two-wheeled robot built with ROS using URDF/Xacro models, visualized in RVIZ with a caster wheel for balance.',
+      'URDF/Xacro model with a caster wheel for balance, visualized in RVIZ.',
     techs: ['CMake', 'ROS', 'RVIZ'],
   },
   {
@@ -28,7 +28,7 @@ const projects: Project[] = [
     github: 'https://github.com/DarioCabas/ROS_Webpage',
     external: '',
     description:
-      'Browser-based control interface for a two-wheeled ROS robot, enabling real-time control via standard web technologies.',
+      'Controls the two-wheeled robot in real time from the browser.',
     techs: ['HTML', 'CSS', 'JavaScript', 'ROS'],
   },
   {
@@ -36,7 +36,7 @@ const projects: Project[] = [
     github: 'https://github.com/DarioCabas/TEMPLATE_EMAIL',
     external: '',
     description:
-      'Responsive HTML/CSS email template compatible across major email clients and devices.',
+      'Responsive layout that renders consistently across major email clients.',
     techs: ['HTML', 'CSS'],
   },
 ];

@@ -1,25 +1,51 @@
 ---
-import { socialLinks } from "@/data/config";
-import GitHub from "@/components/icons/GitHub.astro";
-import LinkedIn from "@/components/icons/LinkedIn.astro";
-import Instagram from "@/components/icons/Instagram.astro";
-import Twitter from "@/components/icons/Twitter.astro";
+import ExternalLink from '@/components/ui/ExternalLink.astro';
+import SocialLinks from '@/components/ui/SocialLinks.astro';
 
 const year = new Date().getFullYear();
 ---
 
-<footer>
-  <!-- Mobile social links (hidden on desktop where sidebar shows) -->
-
-  <p class="footer-credit">
-    Designed & Built by <a
-      href="https://github.com/DarioCabas"
-      target="_blank"
-      rel="noreferrer">Darío Cabascango</a
-    >
-    <br />
-    Built with <a href="https://astro.build" target="_blank" rel="noreferrer"
-      >Astro 5</a
-    > · {year}
-  </p>
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>Designed and built by Darío Cabascango with <ExternalLink href="https://astro.build">Astro</ExternalLink>.</p>
+    <div class="footer-end">
+      <nav aria-label="Social links">
+        <SocialLinks variant="icons" />
+      </nav>
+      <p><small>© {year}</small></p>
+    </div>
+  </div>
 </footer>
+
+<style>
+  .footer {
+    background: var(--surface);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    padding-block: 1.5rem 2rem;
+    border-top: 1px solid var(--rule);
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+
+  .footer-end {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .footer-end nav {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .footer-inner small {
+    font-size: inherit;
+  }
+</style>

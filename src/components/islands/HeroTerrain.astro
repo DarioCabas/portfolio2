@@ -1,0 +1,61 @@
+{/* Decorative Andes-like point terrain under the hero; hidden from assistive tech */}
+<canvas class="hero-terrain" data-hero-terrain aria-hidden="true"></canvas>
+
+<style>
+  /* A horizon band below the hero copy: no text ever sits on top of it */
+  .hero-terrain {
+    display: block;
+    width: 100%;
+    height: clamp(8rem, 20vh, 14rem);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-out);
+    mask-image:
+      linear-gradient(to right, transparent, #000 15%, #000 85%, transparent),
+      linear-gradient(to bottom, transparent, #000 35%);
+    mask-composite: intersect;
+  }
+
+  .hero-terrain.is-ready {
+    opacity: 0.8;
+  }
+
+  @media (forced-colors: active) {
+    .hero-terrain {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  let cleanup: (() => void) | undefined;
+
+  function supportsWebGL() {
+    try {
+      const canvas = document.createElement('canvas');
+      return Boolean(canvas.getContext('webgl2') || canvas.getContext('webgl'));
+    } catch {
+      return false;
+    }
+  }
+
+  async function loadTerrain() {
+    const canvas = document.querySelector<HTMLCanvasElement>('[data-hero-terrain]');
+    if (!canvas || !supportsWebGL()) return;
+    const { mountTerrain } = await import('@/scripts/hero-terrain');
+    cleanup = mountTerrain(canvas);
+  }
+
+  // Load three.js only after the page is idle so it never delays the first paint
+  function scheduleTerrain() {
+    if (!document.querySelector('[data-hero-terrain]')) return;
+    if ('requestIdleCallback' in window) requestIdleCallback(() => loadTerrain(), { timeout: 2000 });
+    else setTimeout(loadTerrain, 600);
+  }
+
+  document.addEventListener('astro:page-load', scheduleTerrain);
+  document.addEventListener('astro:before-swap', () => {
+    cleanup?.();
+    cleanup = undefined;
+  });
+</script>

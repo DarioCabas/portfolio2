@@ -3,134 +3,110 @@ import { navLinks } from '@/data/config';
 import Logo from '@/components/icons/Logo.astro';
 ---
 
-<header id="navbar" class="pre-loader" role="banner">
-  <div class="nav-logo">
-    <a href="/" aria-label="Darío Cabascango — Home">
-      <Logo width={48} height={48} />
+<header class="navbar" data-navbar>
+  <div class="navbar-inner container">
+    <a href="/" class="navbar-logo" aria-label="Darío Cabascango — Home">
+      <Logo width={36} height={36} />
     </a>
+
+    <nav aria-label="Main navigation">
+      <ul class="navbar-links">
+        {navLinks.map((link) => (
+          <li>
+            <a href={link.url} data-nav-link>{link.name}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   </div>
-
-  <nav aria-label="Main navigation">
-    <ul class="nav-links">
-      {navLinks.map((link) => (
-        <li>
-          <a href={link.url}>{link.name}</a>
-        </li>
-      ))}
-    </ul>
-  </nav>
-
-  <button
-    class="hamburger-btn"
-    id="hamburger-btn"
-    aria-label="Toggle menu"
-    aria-expanded="false"
-    aria-controls="mobile-menu"
-  >
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
 </header>
 
-<!-- Mobile menu -->
-<div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true">
-  <button
-    class="mobile-close-btn"
-    id="mobile-close-btn"
-    aria-label="Close menu"
-  >
-    <span></span>
-    <span></span>
-  </button>
-  <nav>
-    <ul class="mobile-nav-links">
-      {navLinks.map((link) => (
-        <li>
-          <a href={link.url} class="mobile-nav-link">{link.name}</a>
-        </li>
-      ))}
-    </ul>
-  </nav>
-</div>
-
-<script>
-  import { LOADER_DELAY } from '@/utils/constants';
-
-  const navbar = document.getElementById('navbar')!;
-  const hamburger = document.getElementById('hamburger-btn')!;
-  const mobileMenu = document.getElementById('mobile-menu')!;
-  const mobileCloseBtn = document.getElementById('mobile-close-btn')!;
-
-  // Show navbar after loader
-  window.addEventListener('loader:done', () => {
-    navbar.classList.remove('pre-loader');
-  });
-
-  // Scroll direction detection
-  let lastScroll = 0;
-  let ticking = false;
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        const current = window.scrollY;
-        if (current > 100) {
-          navbar.classList.add('scrolled');
-          if (current > lastScroll) {
-            navbar.classList.add('hidden');
-          } else {
-            navbar.classList.remove('hidden');
-          }
-        } else {
-          navbar.classList.remove('scrolled', 'hidden');
-        }
-        lastScroll = current;
-        ticking = false;
-      });
-      ticking = true;
-    }
-  });
-
-  // Hamburger menu
-  function openMenu() {
-    document.body.classList.add('menu-open');
-    mobileMenu.setAttribute('aria-hidden', 'false');
-    hamburger.setAttribute('aria-expanded', 'true');
-    // Focus first link
-    const firstLink = mobileMenu.querySelector<HTMLAnchorElement>('a');
-    firstLink?.focus();
+<style>
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 0.3s var(--ease-out),
+      border-color 0.3s var(--ease-out);
   }
 
-  function closeMenu(returnFocus = true) {
-    document.body.classList.remove('menu-open');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-    hamburger.setAttribute('aria-expanded', 'false');
-    if (returnFocus) hamburger.focus();
+  /* Solid bar only once content scrolls underneath it */
+  .navbar.is-scrolled {
+    background: color-mix(in srgb, var(--night) 88%, transparent);
+    backdrop-filter: blur(12px);
+    border-color: var(--rule);
   }
 
-  hamburger.addEventListener('click', () => {
-    document.body.classList.contains('menu-open') ? closeMenu() : openMenu();
-  });
+  .navbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: var(--nav-height);
+  }
 
-  mobileCloseBtn.addEventListener('click', () => closeMenu());
+  .navbar-logo {
+    flex-shrink: 0;
+    color: var(--text);
+    transition: color 0.2s var(--ease-out);
+  }
 
-  // Close on ESC
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
-      closeMenu();
+  .navbar-logo:hover {
+    color: var(--marigold);
+  }
+
+  .navbar-links {
+    display: flex;
+    gap: clamp(0.85rem, 3vw, 2.25rem);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .navbar-links a {
+    position: relative;
+    display: inline-block;
+    min-width: 24px;
+    text-align: center;
+    color: var(--muted);
+    text-decoration: none;
+    padding-block: 0.4rem;
+  }
+
+  .navbar-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--marigold);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  .navbar-links a:hover,
+  .navbar-links a[aria-current] {
+    color: var(--text);
+  }
+
+  .navbar-links a:hover::after,
+  .navbar-links a[aria-current]::after {
+    transform: scaleX(1);
+  }
+  /* Short viewports (landscape phones, 200% zoom) need the space more than a sticky bar */
+  @media (max-height: 500px) {
+    .navbar {
+      position: static;
     }
-  });
+  }
 
-  // Close on mobile link click — no focus steal so anchor navigation works
-  mobileMenu.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => closeMenu(false));
-  });
-
-  // Close on resize to desktop
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 768 && document.body.classList.contains('menu-open')) {
-      closeMenu();
+  @media (max-width: 360px) {
+    .navbar-links {
+      font-size: 0.9375rem;
     }
-  });
-</script>
+  }
+</style>

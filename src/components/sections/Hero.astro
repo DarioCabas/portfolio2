@@ -1,393 +1,191 @@
 ---
-import { email } from "@/data/config";
-import { TYPING_WORDS } from "@/utils/constants";
+import HeroTerrain from '@/components/islands/HeroTerrain.astro';
+import SocialLinks from '@/components/ui/SocialLinks.astro';
+import { email, profileFacts } from '@/data/config';
 ---
 
-<section id="hero" aria-label="Introduction">
-  <div class="hero-bg" id="hero-bg" aria-hidden="true"></div>
+<section class="hero" aria-labelledby="hero-name">
 
-  <!-- Decorative grid lines -->
-  <div class="hero-grid" aria-hidden="true">
-    <span></span><span></span><span></span><span></span>
+  <div class="hero-grid container">
+    <div class="hero-text">
+      <h1 class="hero-name" id="hero-name">
+        <span class="hero-line"><span>Darío</span></span>
+        <span class="hero-line"><span>Cabascango</span></span>
+      </h1>
+
+      <p class="hero-role hero-step" style="--step: 1">UX Engineer and AI-native developer</p>
+
+      <p class="hero-intro hero-step" style="--step: 2">
+        I build web and mobile applications with scalable architecture and
+        great user experiences, shipped faster with AI agents.
+      </p>
+
+      <div class="hero-actions hero-step" style="--step: 3">
+        <a class="button button--primary" href={`mailto:${email}`}>Email me</a>
+        <SocialLinks />
+      </div>
+    </div>
+
+    <img
+      class="hero-photo hero-step"
+      style="--step: 1"
+      src="/avatar.png"
+      alt="Portrait of Darío Cabascango"
+      width="360"
+      height="480"
+      fetchpriority="high"
+      decoding="async"
+    />
+
+    <dl class="hero-facts hero-step" style="--step: 4">
+      {profileFacts.map((fact) => (
+        <div>
+          <dt>{fact.label}</dt>
+          <dd>{fact.value}</dd>
+        </div>
+      ))}
+    </dl>
   </div>
 
-  <div class="hero-content">
-    <div class="hero-badge" id="hero-badge">
-      <span class="dot" aria-hidden="true"></span>
-      Creating new ideas
-    </div>
-
-    <p class="hero-greeting" id="hero-greeting">Hi there, I'm</p>
-
-    <h1 class="hero-name" id="hero-name">
-      <span class="hero-name-first">Darío</span><br />
-      <span class="hero-name-last">Cabascango.</span>
-    </h1>
-
-    <h2 class="hero-tagline" id="hero-tagline">
-      <span
-        id="typing-target"
-        aria-label={TYPING_WORDS.join(", ")}
-        data-words={JSON.stringify(TYPING_WORDS)}
-      >
-        <span class="cursor" aria-hidden="true"></span>
-      </span>
-    </h2>
-
-    <p class="hero-description" id="hero-description">
-      Software developer based in <span class="hero-highlight"
-        >Quito, Ecuador</span
-      > — specializing in building exceptional <span class="hero-highlight"
-        >web</span
-      > and
-      <span class="hero-highlight">mobile</span> applications with scalable architecture
-      and delightful user experiences.
-    </p>
-
-    <!-- Stats row -->
-    <div class="hero-stats" id="hero-stats">
-      <div class="hero-stat">
-        <span class="hero-stat-num">3+</span>
-        <span class="hero-stat-label">Years exp.</span>
-      </div>
-      <div class="hero-stat-divider" aria-hidden="true"></div>
-      <div class="hero-stat">
-        <span class="hero-stat-num">15+</span>
-        <span class="hero-stat-label">Projects</span>
-      </div>
-      <div class="hero-stat-divider" aria-hidden="true"></div>
-      <div class="hero-stat">
-        <span class="hero-stat-num">∞</span>
-        <span class="hero-stat-label">Coffee cups</span>
-      </div>
-    </div>
-
-    <div class="hero-cta" id="hero-cta">
-      <a href={`mailto:${email}`} class="btn-primary">
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true"
-        >
-          <path
-            d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-          ></path>
-          <polyline points="22,6 12,13 2,6"></polyline>
-        </svg>
-        Get In Touch
-      </a>
-      <a href="#about" class="btn-secondary">Learn more</a>
-    </div>
-  </div>
-
-  <a
-    href="#about"
-    class="scroll-indicator"
-    id="scroll-indicator"
-    aria-label="Scroll down"
-  >
-    <div class="scroll-mouse">
-      <div class="scroll-wheel"></div>
-    </div>
-  </a>
+  <HeroTerrain />
 </section>
 
-<script>
-  import * as THREE from "three";
-  import { LOADER_DELAY, TYPING_WORDS } from "@/utils/constants";
-
-  const ANIMATE_IDS = [
-    "hero-badge",
-    "hero-greeting",
-    "hero-name",
-    "hero-tagline",
-    "hero-description",
-    "hero-stats",
-    "hero-cta",
-  ];
-
-  window.addEventListener("loader:done", () => {
-    ANIMATE_IDS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) el.classList.add("animate");
-    });
-  });
-
-  // ─── Typing Animation ─────────────────────────────────────────────────────
-  function initTyping() {
-    const target = document.getElementById("typing-target");
-    if (!target) return;
-    const words: string[] = JSON.parse(target.dataset.words || "[]");
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      target.textContent = words[0];
-      return;
-    }
-    let wordIndex = 0,
-      charIndex = 0,
-      isDeleting = false;
-    let timeoutId: ReturnType<typeof setTimeout>;
-    const cursor = document.createElement("span");
-    cursor.className = "cursor";
-    cursor.setAttribute("aria-hidden", "true");
-    const textNode = document.createTextNode("");
-    target.innerHTML = "";
-    target.appendChild(textNode);
-    target.appendChild(cursor);
-    const TYPING_SPEED = 80,
-      DELETING_SPEED = 50,
-      PAUSE_DURATION = 1800;
-    function tick() {
-      const currentWord = words[wordIndex];
-      if (!isDeleting) {
-        charIndex++;
-        textNode.textContent = currentWord.slice(0, charIndex);
-        if (charIndex === currentWord.length) {
-          timeoutId = setTimeout(() => {
-            isDeleting = true;
-            tick();
-          }, PAUSE_DURATION);
-          return;
-        }
-        timeoutId = setTimeout(tick, TYPING_SPEED);
-      } else {
-        charIndex--;
-        textNode.textContent = currentWord.slice(0, charIndex);
-        if (charIndex === 0) {
-          isDeleting = false;
-          wordIndex = (wordIndex + 1) % words.length;
-          timeoutId = setTimeout(tick, TYPING_SPEED);
-          return;
-        }
-        timeoutId = setTimeout(tick, DELETING_SPEED);
-      }
-    }
-    setTimeout(tick, LOADER_DELAY + 400);
+<style>
+  .hero {
+    padding-top: clamp(2.5rem, 8vh, 6rem);
   }
 
-  // ─── Three.js: constellation network ────────────────────────────────────
-  function initThreeBackground() {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const mount = document.getElementById("hero-bg");
-    if (!mount) return;
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: end;
+  }
 
-    const W = mount.clientWidth,
-      H = mount.clientHeight;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 600);
-    camera.position.z = 120;
+  .hero-name {
+    font-size: clamp(3.5rem, 19vw, 9.5rem);
+    font-weight: 800;
+    font-stretch: 75%;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+  }
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(W, H);
-    renderer.setClearColor(0x000000, 0);
-    mount.appendChild(renderer.domElement);
+  /* Load sequence: name lines rise out of their masks, then the rest follows */
+  .hero-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+  }
 
-    // Palette matching hero-name-first gradient — vivid enough to see
-    const COL_A = new THREE.Color("#6aaee8"); // medium blue
-    const COL_B = new THREE.Color("#90c8f8"); // sky blue
+  .hero-line > span {
+    display: block;
+    animation: rise 0.9s var(--ease-out) both;
+  }
 
-    const COUNT = 120;
-    const positions = new Float32Array(COUNT * 3);
-    const vx = new Float32Array(COUNT);
-    const vy = new Float32Array(COUNT);
+  .hero-line:nth-child(2) > span {
+    animation-delay: 0.08s;
+  }
 
-    for (let i = 0; i < COUNT; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 200;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 140;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 30;
-      vx[i] = (Math.random() - 0.5) * 0.022;
-      vy[i] = (Math.random() - 0.5) * 0.015;
+  .hero-step {
+    animation: fade-up 0.8s var(--ease-out) both;
+    animation-delay: calc(0.15s + var(--step) * 0.1s);
+  }
+
+  @keyframes rise {
+    from {
+      transform: translateY(105%);
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+
+  .hero-role {
+    margin-top: clamp(1.25rem, 3vw, 1.75rem);
+    font-size: var(--step-2);
+    font-weight: 650;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-intro {
+    max-width: 46ch;
+    margin-top: 1.25rem;
+    font-size: var(--step-1);
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .hero-facts {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .hero-facts dt {
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+
+  .hero-facts dd {
+    font-weight: 600;
+  }
+
+  @media (max-width: 860px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
     }
 
-    // ── Dot geometry ──────────────────────────────────────────────────────
-    const dotGeo = new THREE.BufferGeometry();
-    dotGeo.setAttribute(
-      "position",
-      new THREE.BufferAttribute(positions.slice(), 3),
-    );
+    /* On small screens the portrait becomes a compact avatar above the name */
+    .hero-photo {
+      order: -1;
+      width: 5.5rem;
+      aspect-ratio: 1;
+      object-position: top;
+      border-radius: 50%;
+    }
 
-    const dotMat = new THREE.ShaderMaterial({
-      uniforms: {
-        colA: { value: COL_A },
-        colB: { value: COL_B },
-        uAlpha: { value: 0.0 },
-      },
-      vertexShader: `
-        void main() {
-          vec4 mv = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = 14.0 * (100.0 / -mv.z);
-          gl_Position  = projectionMatrix * mv;
-        }
-      `,
-      fragmentShader: `
-        uniform vec3  colA;
-        uniform vec3  colB;
-        uniform float uAlpha;
-        void main() {
-          float d = length(gl_PointCoord - 0.5) * 2.0; // 0..1
-          if (d > 1.0) discard;
-          float core = pow(1.0 - d, 3.0);          // bright solid center
-          float halo = pow(1.0 - d, 1.2) * 0.35;  // soft outer glow
-          float a = (core + halo) * uAlpha;
-          float t = gl_FragCoord.x / 1400.0;
-          gl_FragColor = vec4(mix(colA, colB, t), a);
-        }
-      `,
-      transparent: true,
-      depthWrite: false,
-    });
-
-    scene.add(new THREE.Points(dotGeo, dotMat));
-
-    // ── Line geometry (connections) ───────────────────────────────────────
-    const MAX_LINES = COUNT * 4;
-    const linePositions = new Float32Array(MAX_LINES * 6); // 2 verts × 3 floats
-    const lineAlphas = new Float32Array(MAX_LINES);
-    const lineGeo = new THREE.BufferGeometry();
-    lineGeo.setAttribute(
-      "position",
-      new THREE.BufferAttribute(linePositions, 3),
-    );
-    lineGeo.setAttribute("aAlpha", new THREE.BufferAttribute(lineAlphas, 1));
-
-    const lineMat = new THREE.ShaderMaterial({
-      uniforms: {
-        colA: { value: COL_A },
-        colB: { value: COL_B },
-        uAlpha: { value: 0.0 },
-      },
-      vertexShader: `
-        attribute float aAlpha;
-        varying   float vAlpha;
-        void main() {
-          vAlpha = aAlpha;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform vec3  colA;
-        uniform vec3  colB;
-        uniform float uAlpha;
-        varying float vAlpha;
-        void main() {
-          float t = gl_FragCoord.x / 1400.0;
-          gl_FragColor = vec4(mix(colA, colB, t), vAlpha * uAlpha);
-        }
-      `,
-      transparent: true,
-      depthWrite: false,
-    });
-
-    const lineSegments = new THREE.LineSegments(lineGeo, lineMat);
-    scene.add(lineSegments);
-
-    const CONNECT_DIST = 38; // world-units threshold for drawing a line
-    const FADE_DUR = 2500;
-    const fadeStart = performance.now();
-
-    let mouseX = 0,
-      mouseY = 0;
-    const onMouse = (e: MouseEvent) => {
-      mouseX = e.clientX / window.innerWidth - 0.5;
-      mouseY = e.clientY / window.innerHeight - 0.5;
-    };
-    window.addEventListener("mousemove", onMouse);
-
-    const onResize = () => {
-      const w = mount.clientWidth,
-        h = mount.clientHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-    };
-    window.addEventListener("resize", onResize);
-
-    let raf: number;
-    const tick = () => {
-      raf = requestAnimationFrame(tick);
-
-      const elapsed = performance.now() - fadeStart;
-      const globalAlpha = Math.min(elapsed / FADE_DUR, 1);
-      dotMat.uniforms.uAlpha.value = globalAlpha * 1.0;
-      lineMat.uniforms.uAlpha.value = globalAlpha * 0.6;
-
-      // Drift particles
-      const pos = dotGeo.attributes.position.array as Float32Array;
-      for (let i = 0; i < COUNT; i++) {
-        pos[i * 3] += vx[i];
-        pos[i * 3 + 1] += vy[i];
-        if (pos[i * 3] > 100) pos[i * 3] = -100;
-        if (pos[i * 3] < -100) pos[i * 3] = 100;
-        if (pos[i * 3 + 1] > 70) pos[i * 3 + 1] = -70;
-        if (pos[i * 3 + 1] < -70) pos[i * 3 + 1] = 70;
-      }
-      dotGeo.attributes.position.needsUpdate = true;
-
-      // Rebuild connection lines
-      let lineCount = 0;
-      const lp = lineGeo.attributes.position.array as Float32Array;
-      const la = lineGeo.attributes.aAlpha.array as Float32Array;
-      for (let i = 0; i < COUNT && lineCount < MAX_LINES; i++) {
-        const ax = pos[i * 3],
-          ay = pos[i * 3 + 1];
-        for (let j = i + 1; j < COUNT && lineCount < MAX_LINES; j++) {
-          const dx = ax - pos[j * 3];
-          const dy = ay - pos[j * 3 + 1];
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < CONNECT_DIST) {
-            const base = lineCount * 6;
-            lp[base] = ax;
-            lp[base + 1] = ay;
-            lp[base + 2] = 0;
-            lp[base + 3] = pos[j * 3];
-            lp[base + 4] = pos[j * 3 + 1];
-            lp[base + 5] = 0;
-            la[lineCount * 2] = 1 - dist / CONNECT_DIST;
-            la[lineCount * 2 + 1] = 1 - dist / CONNECT_DIST;
-            lineCount++;
-          }
-        }
-      }
-      lineGeo.setDrawRange(0, lineCount * 2);
-      lineGeo.attributes.position.needsUpdate = true;
-      lineGeo.attributes.aAlpha.needsUpdate = true;
-
-      // Subtle camera nudge on mouse
-      camera.position.x += (mouseX * 5 - camera.position.x) * 0.015;
-      camera.position.y += (-mouseY * 3 - camera.position.y) * 0.015;
-      camera.lookAt(scene.position);
-
-      renderer.render(scene, camera);
-    };
-    tick();
-
-    document.addEventListener(
-      "astro:before-swap",
-      () => {
-        cancelAnimationFrame(raf);
-        window.removeEventListener("mousemove", onMouse);
-        window.removeEventListener("resize", onResize);
-        renderer.dispose();
-        dotGeo.dispose();
-        dotMat.dispose();
-        lineGeo.dispose();
-        lineMat.dispose();
-      },
-      { once: true },
-    );
+    .hero-facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => {
-      initTyping();
-      initThreeBackground();
-    });
-  } else {
-    initTyping();
-    initThreeBackground();
+  /* Primary action takes the full row; secondary ones share the next */
+  @media (max-width: 480px) {
+    .hero-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .hero-actions :global(.button) {
+      justify-content: center;
+    }
+
+    .hero-actions .button--primary {
+      grid-column: 1 / -1;
+    }
   }
-</script>
+</style>

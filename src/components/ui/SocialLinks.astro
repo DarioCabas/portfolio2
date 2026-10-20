@@ -1,0 +1,54 @@
+---
+import GitHub from '@/components/icons/GitHub.astro';
+import LinkedIn from '@/components/icons/LinkedIn.astro';
+import ExternalLink from '@/components/ui/ExternalLink.astro';
+import { socialLinks } from '@/data/config';
+
+interface Props {
+  /** "labeled" shows logo + name as buttons; "icons" shows logos only */
+  variant?: 'labeled' | 'icons';
+}
+
+const { variant = 'labeled' } = Astro.props;
+const icons = { GitHub, LinkedIn } as const;
+---
+
+{socialLinks.map((link) => {
+  const Icon = icons[link.name as keyof typeof icons];
+  return variant === 'labeled' ? (
+    <ExternalLink class="button button--ghost" href={link.url}>
+      {Icon && <Icon class="social-icon" />}
+      {link.name}
+    </ExternalLink>
+  ) : (
+    <ExternalLink class="social-icon-link" href={link.url}>
+      {Icon && <Icon class="social-icon" />}
+      <span class="sr-only">{link.name}</span>
+    </ExternalLink>
+  );
+})}
+
+<style>
+  :global(.social-icon) {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+  }
+
+  :global(.social-icon-link) {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    color: var(--muted);
+    transition:
+      color 0.2s var(--ease-out),
+      background-color 0.2s var(--ease-out);
+  }
+
+  :global(.social-icon-link:hover) {
+    color: var(--marigold);
+    background: var(--surface-raised);
+  }
+</style>

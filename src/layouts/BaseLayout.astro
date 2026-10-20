@@ -1,5 +1,7 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
+import CursorGlow from '@/components/islands/CursorGlow.astro';
+import ScrollEffects from '@/components/islands/ScrollEffects.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -9,7 +11,7 @@ interface Props {
 
 const {
   title = "Darío Cabascango — Software Developer",
-  description = "Software developer based in Quito, Ecuador — specializing in building exceptional web and mobile applications."
+  description = "UX engineer and AI-native developer in Quito, Ecuador. Web and mobile products, design systems and AI agent workflows."
 } = Astro.props;
 ---
 
@@ -20,25 +22,26 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="author" content="Darío Cabascango" />
+    <meta name="theme-color" content="#14172b" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
     <title>{title}</title>
 
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Hide reveal targets before first paint so they don't flash in and out -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
 
     <!-- View Transitions -->
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
     <a href="#main" class="skip-to-content">Skip to content</a>
     <slot />
+    <ScrollEffects />
+    <CursorGlow />
   </body>
 </html>

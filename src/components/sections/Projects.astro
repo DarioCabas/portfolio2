@@ -1,70 +1,77 @@
 ---
+import ChipList from '@/components/ui/ChipList.astro';
+import ExternalLink from '@/components/ui/ExternalLink.astro';
 import projects from '@/data/projects';
-import GitHub from '@/components/icons/GitHub.astro';
-import External from '@/components/icons/External.astro';
-import Folder from '@/components/icons/Folder.astro';
-
-const accentClasses = ['card--blue','card--purple','card--cyan','card--emerald','card--rose'];
 ---
 
-<section aria-labelledby="other-projects-heading">
-  <div class="other-projects-header" data-reveal="fade-up">
-    <h2 id="other-projects-heading" class="other-projects-title">Other Projects</h2>
-    <a href="https://github.com/DarioCabas" target="_blank" rel="noreferrer" class="archive-link">
-      view the full archive →
-    </a>
+<section class="section" aria-labelledby="other-projects-heading">
+  <div class="container">
+    <div class="op-header" data-reveal>
+      <h2 class="section-heading" id="other-projects-heading">Other projects</h2>
+      <ExternalLink class="op-archive" href="https://github.com/DarioCabas">Full archive on GitHub</ExternalLink>
+    </div>
+
+    <ul class="op-list">
+      {projects.map((project, index) => (
+        <li class="op-row" data-reveal style={`--reveal-delay: ${index * 70}ms`}>
+          <h3 class="op-title">
+            <ExternalLink href={project.external || project.github}>{project.title}</ExternalLink>
+          </h3>
+          <p class="op-desc">{project.description}</p>
+          <ChipList items={project.techs} label={`${project.title} technologies`} />
+        </li>
+      ))}
+    </ul>
   </div>
-
-  <ul class="projects-bento" aria-label="Other projects">
-    {projects.map((project, i) => (
-      <li
-        class={`project-card ${accentClasses[i % accentClasses.length]}`}
-        data-reveal="scale"
-        data-reveal-delay={String(i * 80)}
-        tabindex="0"
-        role="article"
-        aria-label={project.title}
-        {...(project.external || project.github
-          ? { 'data-link': project.external || project.github }
-          : {})}
-      >
-        <div class="project-card-top">
-          <div class="project-folder" aria-hidden="true"><Folder /></div>
-          <div class="project-card-links">
-            {project.github && (
-              <a href={project.github} target="_blank" rel="noreferrer noopener"
-                 aria-label={`${project.title} GitHub`} tabindex="-1">
-                <GitHub />
-              </a>
-            )}
-            {project.external && (
-              <a href={project.external} target="_blank" rel="noreferrer noopener"
-                 aria-label={`${project.title} live`} tabindex="-1">
-                <External />
-              </a>
-            )}
-          </div>
-        </div>
-
-        <h3 class="project-card-title">{project.title}</h3>
-        <p class="project-card-desc">{project.description}</p>
-
-        <ul class="project-tech-list" aria-label="Technologies">
-          {project.techs.map((tech) => <li>{tech}</li>)}
-        </ul>
-      </li>
-    ))}
-  </ul>
 </section>
 
-<script>
-  // Keyboard navigation for project cards
-  document.querySelectorAll<HTMLElement>('.project-card[data-link]').forEach((card) => {
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        const link = card.dataset.link;
-        if (link) window.open(link, '_blank', 'noreferrer');
-      }
-    });
-  });
-</script>
+<style>
+  .op-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0 2rem;
+  }
+
+  .op-header :global(.op-archive) {
+    font-weight: 600;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .op-row {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr) minmax(0, 4fr);
+    gap: 0.75rem 2rem;
+    align-items: start;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .op-row:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .op-title {
+    font-size: var(--step-1);
+    letter-spacing: -0.015em;
+  }
+
+  .op-title :global(a) {
+    text-decoration-color: transparent;
+  }
+
+  .op-title :global(a:hover) {
+    text-decoration-color: var(--marigold);
+  }
+
+  .op-desc {
+    color: var(--muted);
+  }
+
+  @media (max-width: 860px) {
+    .op-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

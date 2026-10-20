@@ -1,0 +1,97 @@
+<style is:global>
+  /* Soft light that trails the pointer; sits behind content so text contrast never changes */
+  .cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 520px;
+    height: 520px;
+    margin: -260px 0 0 -260px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgb(169 155 240 / 0.13) 0%, rgb(169 155 240 / 0.05) 35%, transparent 70%);
+    opacity: 0;
+    transition:
+      opacity 0.4s ease,
+      background 0.4s ease;
+    will-change: transform;
+  }
+
+  .cursor-glow.is-active {
+    opacity: 1;
+  }
+
+  /* Over links, buttons and chips the light warms up to marigold */
+  .cursor-glow.is-interactive {
+    background: radial-gradient(circle, rgb(242 181 68 / 0.14) 0%, rgb(242 181 68 / 0.05) 35%, transparent 70%);
+  }
+
+  @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce), (forced-colors: active) {
+    .cursor-glow {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const interactiveSelector = 'a, button, [role="button"], .chip, .concept-chip';
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  let glow: HTMLDivElement | null = null;
+  let current = { x: 0, y: 0, scale: 1 };
+  let target = { x: 0, y: 0, scale: 1 };
+  let frameId = 0;
+
+  const isEnabled = () => finePointer.matches && !reducedMotion.matches;
+
+  function ensureGlow() {
+    // ClientRouter swaps <body>, so the element is recreated on every page load
+    if (glow?.isConnected) return glow;
+    glow = document.createElement('div');
+    glow.className = 'cursor-glow';
+    glow.setAttribute('aria-hidden', 'true');
+    document.body.prepend(glow);
+    return glow;
+  }
+
+  function step() {
+    if (!glow) return;
+    current.x += (target.x - current.x) * 0.14;
+    current.y += (target.y - current.y) * 0.14;
+    current.scale += (target.scale - current.scale) * 0.14;
+    glow.style.transform = `translate3d(${current.x}px, ${current.y}px, 0) scale(${current.scale})`;
+
+    const settled =
+      Math.abs(target.x - current.x) < 0.3 &&
+      Math.abs(target.y - current.y) < 0.3 &&
+      Math.abs(target.scale - current.scale) < 0.003;
+    // Stop the loop while the pointer rests; the next move restarts it
+    frameId = settled ? 0 : requestAnimationFrame(step);
+  }
+
+  document.addEventListener(
+    'pointermove',
+    (event) => {
+      if (event.pointerType !== 'mouse' || !isEnabled()) return;
+      const element = ensureGlow();
+      if (!element.classList.contains('is-active')) {
+        current = { x: event.clientX, y: event.clientY, scale: current.scale };
+        element.classList.add('is-active');
+      }
+      const isInteractive = Boolean((event.target as Element | null)?.closest?.(interactiveSelector));
+      element.classList.toggle('is-interactive', isInteractive);
+      target = { x: event.clientX, y: event.clientY, scale: isInteractive ? 0.6 : 1 };
+      if (!frameId) frameId = requestAnimationFrame(step);
+    },
+    { passive: true },
+  );
+
+  document.documentElement.addEventListener('pointerleave', () => glow?.classList.remove('is-active'));
+  document.addEventListener('astro:before-swap', () => {
+    cancelAnimationFrame(frameId);
+    frameId = 0;
+    glow = null;
+  });
+</script>

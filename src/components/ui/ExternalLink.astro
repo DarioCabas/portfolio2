@@ -1,0 +1,11 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'a'> & { href: string };
+
+const { href, ...attributes } = Astro.props;
+---
+
+<a href={href} target="_blank" rel="noreferrer noopener" {...attributes}>
+  <slot /><span class="sr-only"> (opens in new tab)</span>
+</a>
