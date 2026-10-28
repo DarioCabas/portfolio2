@@ -32,7 +32,7 @@ export const socialLinks: SocialLink[] = [
 ];
 
 export const profileFacts: ProfileFact[] = [
-  { label: "Experience", value: "5+ years" },
+  { label: "Experience", value: "6+ years" },
   { label: "Based in", value: "Quito, Ecuador (UTC−5)" },
   { label: "Languages", value: "Spanish (native), English (B2)" },
 ];
